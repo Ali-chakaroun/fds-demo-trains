@@ -1,0 +1,7 @@
+    PREFIX ex: <http://example.org/>
+
+    SELECT ?id ?name WHERE {
+        ?s ex:ID ?id ;
+        ex:Name ?name .
+        FILTER(lcase(str(?name)) IN ("antithymocyte immunoglobulin (horse)", "methylprednisolone sodium succinate", "rituximab", "immunoglobulin human normal", "tocilizumab", "bortezomib", "azathioprine", "belatacept", "pegcetacoplan", "antibiotics", "prednisone", "mycophenolate mofetil hydrochloride", "cidofovir", "torasemide", "ganciclovir", "prednisolone", "eculizumab", "immunoglobulin cytomegalovirus", "uncoded", "cyclophosphamide", "antithymocyte immunoglobulin", "antithymocyte immunoglobulin (rabbit)", "everolimus", "fludarabine", "mycophenolate sodium", "immunoglobulins nos", "mycophenolate mofetil", "leflunomide", "tacrolimus", "mycophenolic acid", "basiliximab", "methylprednisolone", "ruxolitinib phosphate", "ciclosporin", "obinutuzumab"))
+    }
