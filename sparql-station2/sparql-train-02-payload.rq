@@ -1,0 +1,32 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+
+SELECT
+(STRLEN(?parentCode) AS ?level)
+?parentCode
+?parentName
+(GROUP_CONCAT(DISTINCT ?drugLabel; separator=", ") AS ?drugs)
+(GROUP_CONCAT(DISTINCT ?code; separator=",") AS ?drugs_ids)
+WHERE {
+?drug (rdfs:label|skos:altLabel) ?drugLabel ;
+        skos:prefLabel            ?code .
+
+FILTER ( langMatches(lang(?drugLabel), "EN"))
+FILTER ( lcase(str(?drugLabel)) IN ("valganciclovir", "thiamine mononitrate", "beclometasone", "ciclosporin", "prednisone", "clonazepam", "antithymocyte immunoglobulin (rabbit)", "amlodipine",
+                                    "furosemide", "levothyroxine", "budesonide", "ciprofloxacin", "eltrombopag olamine", "mycophenolate mofetil", "cyclophosphamide", "tacrolimus", 
+                                    "phenoxymethylpenicillin potassium", "everolimus", "duloxetine hydrochloride", "metoprolol", "spironolactone", "ondansetron hydrochloride",
+                                    "mycophenolic acid", "enoxaparin", "sertraline", "levothyroxine sodium", "senna spp.", "mycophenolate sodium", "simvastatin", "corticosteroids", 
+                                    "folic acid", "immunoglobulin human normal", "nystatin", "methylprednisolone", "apixaban", "vancomycin", "escitalopram oxalate", "calcium pantothenate",
+                                    "belatacept", "erythromycin", "morphine", "basiliximab", "diphenhydramine hydrochloride", "omeprazole", "clarithromycin", "oxybutynin hydrochloride",
+                                    "immunoglobulin g human", "rituximab", "aripiprazole", "immunoglobulins", "penicillin nos", "nicotinamide", "uncoded", "aciclovir", "fluconazole",
+                                    "biotin", "riboflavin", "trimethoprim", "lactulose", "pantoprazole", "brincidofovir", "amitriptyline", "ranitidine hydrochloride", "sulfamethoxazole",
+                                    "vitamin d nos", "eculizumab", "immunoglobulins nos", "cidofovir", "prednisolone", "sucralfate", "sumatriptan", "vitamin k nos", "risperidone",
+                                    "ergocalciferol", "magnesium oxide", "bortezomib", "infliximab", "sodium fluoride", "levetiracetam", "cefepime", "granulocyte colony stimulating factor",
+                                    "benzylpenicillin", "rivaroxaban", "pyridoxine hydrochloride", "cyanocobalamin", "insulin glargine", "deferasirox", "ofatumumab")) 
+
+?drug (skos:broader)+ ?parent .
+?parent skos:prefLabel ?parentCode ;
+        rdfs:label     ?parentName .
+}
+GROUP BY ?parentCode ?parentName
+ORDER BY ?level ?parentCode
